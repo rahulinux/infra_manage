@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Server Stop/Start UI</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <h2>AWS Server</h2>
+  <p>Please select this action to perform</p>
+  <div class="dropdown">
+    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Action
+    <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li><a href="#">Start</a></li>
+      <li class="disabled"><a href="#">Stop</a></li>
+      <li><a href="#">Start All</a></li>
+      <li class="divider"></li>
+      <li><a href="#">Start All</a></li>
+    </ul>
+  </div>           
+  <table class="table">
+    <thead>
+      <tr>
+        <th>IP</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+    <form role="form">
+    <div class="checkbox">
+      <tr>
+        <div class="checkbox">
+        <td><label class="checkbox-inline"><input type="checkbox" value="">Server1</label></td>
+        <td><button type="button" class="btn btn-success">Running</button></td>
+        </div>
+      </tr>
+      <tr>
+        <div class="checkbox">
+        <td><label class="checkbox-inline"><input type="checkbox" value="">Server2</label></td>
+        <td><button type="button" class="btn btn-danger">Stopped</button></td>
+        </div>
+      </tr>
+    </div>
+    </form>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>
