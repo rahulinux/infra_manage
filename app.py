@@ -170,6 +170,13 @@ def reload_servers():
 @app.route("/add-servers")
 def add_servers():
     return render_template("add-servers.html")
+
+@app.route("/add-inventory",methods=['POST'])
+def add_inventory():
+     server_ip = request.form['serverIP']
+     instance_id = request.form['instanceId']
+     return json.dumps({ 'serverIP': server_ip, 'instance_id': instance_id} )
+        
  
 if __name__ == "__main__":
    app.run(debug=True)
