@@ -1,3 +1,17 @@
+create database infra_manage;
+use infra_manage;
+
+CREATE TABLE `infra_manage`.`tbl_user` (
+       `user_id` BIGINT NULL AUTO_INCREMENT,
+       `user_name` VARCHAR(45) NULL,
+       `user_username` VARCHAR(45) NULL,
+       `user_password` VARCHAR(80) NOT NULL,
+       PRIMARY KEY(`user_id`));
+        
+
+# PROCEDURES
+
+# sp_createUser
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_createUser`(
     IN p_name VARCHAR(50),
@@ -27,3 +41,31 @@ BEGIN
     END IF;
 END$$
 DELIMITER ;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# sp_validateLogin
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_validateLogin`(
+IN p_username VARCHAR(20)
+)
+BEGIN
+    select * from tbl_user where user_username = p_username;
+END$$
+DELIMITER ;
+
+
+
+

@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 
 from flask import Flask
-from flask import Flask, render_template, request, json
+from flask import Flask, render_template, request, json, redirect, session
 from flask.ext.mysql import MySQL
 from werkzeug import generate_password_hash, check_password_hash
+from ansible import inventory 
+import ansible.runner 
 
 app = Flask(__name__)
-
+app.secret_key = 'secret'
 mysql = MySQL()
 
 #MySQL Configuration
@@ -15,6 +17,10 @@ app.config['MYSQL_DATABASE_PASSWORD'] = 'x'
 app.config['MYSQL_DATABASE_DB'] = 'infra_manage'
 app.config['MYSQL_DATABASE_HOME'] = 'localhost'
 mysql.init_app(app)
+
+# Inventory file configes
+app.config['inv'] = './hosts'
+inv = None 
 
 @app.route("/")
 def main():
@@ -69,6 +75,7 @@ def validateLogin():
       data = cursor.fetchall()
       if len(data) > 0:
          if check_password_hash(str(data[0][3]),_password):
+            session['user'] = data[0][0]
             return redirect('/userHome')
          else:
             return render_template('error.html',error='Wrong Email Address or Password')
@@ -82,11 +89,56 @@ def validateLogin():
 
 @app.route("/userHome")
 def userHome():
-  return render_template("userHome.html")
+  if session.get('user'):
+     return render_template("userHome.html")
+  else:
+     return render_template('error.html',error = 'Unauthorized Access')
+
+@app.route("/logout")
+def logout():
+    session.pop('user',None)
+    return redirect('/')
  
 @app.route("/showSignUp")
 def showSignUp():
      return render_template("signup.html")
+
+
+def server_status():
+    print "Server_Status_Run"
+    global inv
+    inv = inventory.Inventory(app.config['inv'])
+    results = ansible.runner.Runner(
+       pattern = '*', forks=10,
+       inventory = inv,
+       transport = 'local',
+       module_name = 'shell', module_args='nc -vzw1 {{ inventory_hostname }} 22'
+    ).run()
+    return results 
+
+## Features
+@app.route("/start-stop-servers")
+def startstopservers():
+  global inv
+  if session.get('user'):
+     if inv is None:
+        inv = server_status()
+     return render_template("start-stop-servers.html",inv=inv)
+  else:
+     return render_template('error.html',error = 'Unauthorized Access')
+
+@app.route("/reload-servers")
+def reload_servers():
+   global inv
+   inv = server_status()
+   return redirect("/start-stop-servers") 
+
+@app.route("/start-servers",methods=['GET','POST'])
+def start_servers():
+     value = request.args.getlist('check')
+     #value = request.form.getlist('check')
+     print value
+     return redirect("/start-stop-servers")
 
 if __name__ == "__main__":
    app.run(debug=True)
