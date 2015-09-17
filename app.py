@@ -127,18 +127,49 @@ def startstopservers():
   else:
      return render_template('error.html',error = 'Unauthorized Access')
 
+
+
+@app.route("/start-servers",methods=['POST'])
+def start_servers():
+     value = request.form.getlist('favorite[]')
+     inv = inventory.Inventory(app.config['inv'])
+     for host in value:
+        results = ansible.runner.Runner(
+          pattern = host, forks=10,
+          inventory = inv,
+          transport = 'local',
+          module_name = 'debug', module_args='msg={{ instance_id }}'
+        ).run()
+        print results['contacted'].items()
+     #print request.form.getlist('favorite[]')
+     #return json.dumps({'value':str(value)})
+     return redirect("/start-stop-servers")
+
+
+@app.route("/stop-servers",methods=['POST'])
+def stop_servers():
+    value = request.form.getlist('favorite[]')
+    return json.dumps({'value':str(value)})
+
+@app.route("/start-all-servers",methods=['POST'])
+def start_all_servers():
+    value = request.form.getlist('favorite[]')
+    return json.dumps({'value':str(value)})
+ 
+@app.route("/stop-all-servers",methods=['POST'])
+def stop_all_servers():
+    value = request.form.getlist('favorite[]')
+    return json.dumps({'value':str(value)})
+
 @app.route("/reload-servers")
 def reload_servers():
    global inv
    inv = server_status()
-   return redirect("/start-stop-servers") 
+   return redirect("/start-stop-servers")
 
-@app.route("/start-servers",methods=['GET','POST'])
-def start_servers():
-     value = request.args.getlist('check')
-     #value = request.form.getlist('check')
-     print value
-     return redirect("/start-stop-servers")
-
+@app.route("/add-servers")
+def add_servers():
+    return render_template("add-servers.html")
+ 
 if __name__ == "__main__":
    app.run(debug=True)
