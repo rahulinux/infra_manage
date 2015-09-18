@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-from flask import Flask
 from flask import Flask, render_template, request, json, redirect, session
 from flask.ext.mysql import MySQL
 from werkzeug import generate_password_hash, check_password_hash
@@ -26,6 +25,9 @@ inv = None
 def main():
    return render_template("index.html") 
 
+@app.route("/showSignIn")
+def showSignin():
+    return render_template('signin.html')
 
 @app.route("/signUp",methods=['POST'])
 def signUp():
@@ -45,7 +47,8 @@ def signUp():
 
         if len(data) is 0:
             conn.commit()
-            return json.dumps({'message':'User created Successfully !'})
+            return '/showSignIn' 
+            #return json.dumps({'message':'User created Successfully !'})
         else:
             return json.dumps({'error':str(data[0])})
 
@@ -58,9 +61,6 @@ def signUp():
       conn.close() 
 
 
-@app.route("/showSignIn")
-def showSignin():
-    return render_template('signin.html')
 
 @app.route("/validateLogin",methods=['POST'])
 def validateLogin():
@@ -105,7 +105,7 @@ def showSignUp():
 
 
 def server_status():
-    print "Server_Status_Run"
+    print("Server_Status_Run")
     global inv
     inv = inventory.Inventory(app.config['inv'])
     results = ansible.runner.Runner(
@@ -138,12 +138,12 @@ def start_servers():
           pattern = host, forks=10,
           inventory = inv,
           transport = 'local',
-          module_name = 'debug', module_args='msg={{ instance_id }}'
+          module_name = 'debug', module_args='msg={{ project }}'
         ).run()
-        print results['contacted'].items()
+        print(results['contacted'].items())
      #print request.form.getlist('favorite[]')
-     #return json.dumps({'value':str(value)})
-     return redirect("/start-stop-servers")
+     return json.dumps({'value':str(value)})
+     #return redirect("/start-stop-servers")
 
 
 @app.route("/stop-servers",methods=['POST'])
@@ -179,4 +179,4 @@ def add_inventory():
         
  
 if __name__ == "__main__":
-   app.run(debug=True)
+   app.run(host="0.0.0.0",debug=True)

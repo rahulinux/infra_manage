@@ -68,4 +68,4 @@ DELIMITER ;
 
 
 
-
+GRANT ALL PRIVILEGES ON infra_manage.* TO 'rahul'@'%' IDENTIFIED BY 'x';

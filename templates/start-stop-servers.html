@@ -56,7 +56,7 @@
               <form action="" role="form" method="get" >
               <div class="checkbox" >
               {% for (hostname,result) in inv['contacted'].items() %}
-                 {% if "succeeded" in result['stderr'] %}
+                 {% if "succeeded" in result['stdout'] %}
                    {% set status = 'Running' %}
                    {% set btn = 'btn-success' %}
                  {% else %}
