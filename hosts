@@ -1,0 +1,9 @@
+127.0.0.1 instance_id=server1intid project=test
+127.0.0.2 instance_id=server2intid project=test
+127.0.0.3 instance_id=server3intid project=test
+127.0.0.4 instance_id=server4intid project=test
+127.0.0.5 instance_id=server5intid project=test
+127.0.0.6 instance_id=server6intid project=test
+web1 instance_id=web1int project=docker
+google.com project=google owner=google email_id=google@gmail.com instance_id=i-dkjfla
+github.com project=github owner=git email_id=git@gmail.com instance_id=i-gj3ksadf

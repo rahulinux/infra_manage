@@ -1,0 +1,15 @@
+.entry:not(:first-of-type)
+{
+    margin-top: 10px;
+}
+
+.glyphicon
+{
+    font-size: 12px;
+}
+
+.form-inline .form-control {
+  display: inline-block;
+  width: 18%;
+  vertical-align: middle;
+}
