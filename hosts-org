@@ -1,8 +1,0 @@
-127.0.0.1 instance_id=server1intid project=test
-127.0.0.2 instance_id=server2intid project=test
-127.0.0.3 instance_id=server3intid project=test
-127.0.0.4 instance_id=server4intid project=test
-127.0.0.5 instance_id=server5intid project=test
-127.0.0.6 instance_id=server6intid project=test
-192.168.1.11 instance_id=server192.168.1.11intid project=test
-10.0.1.3 instance_id=server10.1.3intid project=test
