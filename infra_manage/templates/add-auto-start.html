@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>DevOps Help</title>
+ 
+    
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/form.css" rel="stylesheet">
+ 
+    <link href="../static/css/jumbotron-narrow.css" rel="stylesheet">
+    <link href="../static/css/signup.css" rel="stylesheet">
+    <script src="../static/js/jquery-1.11.3.min.js"></script> 
+  </head>
+
+  <body>
+ 
+    <div class="container">
+      <div class="header">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            <li role="presentation" ><a href="/userHome">Home</a></li>
+            <li role="presentation" class="active" ><a href="#">Add-Servers</a></li>
+            <li role="presentation"><a href="/logout">logout</a></li>
+          </ul>
+        </nav>
+        <h3 class="text-muted">DevOps Easy</h3>
+      </div>
+ 
+        <h3>Add Servers to Auto start/stop</h3>
+         <div class="controls"> 
+            <form class="form-inline" id="cron" role="form" autocomplete="off" >
+                     <div class="form-inline">
+                      <select class="form-control" id="minutes" form="cron">
+                      <option value="" disabled selected>Minutes</option>
+                        {% for minut in range(59) %}
+                        <option value="{{ minut }}">{{ minut }}</option>
+                        {% endfor %}
+                        <option value="*">Every</option>
+                      </select>
+                      <select class="form-control" id="hours" form="cron">
+                      <option value="" disabled selected>Hours</option>
+                        {% for hour in range(23) %}
+                        <option value="{{ hour }}">{{ hour }}</option>
+                        {% endfor %}
+                        <option value="*">Every</option>
+                      </select>
+                      <select class="form-control" id="day" form="cron">
+                      <option value="" disabled selected>Day</option>
+                        {% for day in range(1,32) %}
+                        <option value="{{ day }}">{{ day }}</option>
+                        {% endfor %}
+                        <option value="*">Every</option>
+                      </select>
+                      <select class="form-control" id="month" form="cron">
+                      <option value="" disabled selected>Month</option>
+                        {% for month in range(1,13) %}
+                        <option value="{{ month }}">{{ month }}</option>
+                        {% endfor %}
+                        <option value="*">Every</option>
+                      </select>
+                      <select class="form-control" id="week" form="cron">
+                      <option value="" disabled selected>Week</option>
+                        {% set days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] %}
+                        {% for week_day in days %}
+                        <option value="{{ week_day }}">{{ week_day }}</option>
+                        {% endfor %}
+                        <option value="*">Every</option>
+                      </select>
+                      <select class="form-control" id="action" form="cron">
+                      <option value="" disabled selected>Start/Stop</option>
+                        {% set a =  [ "Start", "Stop" ] %}
+                        {% for  action in a  %}
+                        <option value="{{ action }}">{{ action }}</option>
+                        {% endfor %}
+                      </select>
+              <div class=form-group>
+              <button id="btnAutostartr" class="btn btn-lg btn-primary btn-block" data-target="controls" type="button">Submit</button>
+               </div>
+              </div>             
+             </form>
+      <br>
+      <br>
+      <footer class="footer">
+        <p>&copy; Company 2015</p>
+      </footer>
+ 
+    </div>
+  </body>
+
+ 
+</html>

@@ -1,0 +1,31 @@
+.form-inline .form-control {
+  display: inline-block;
+  /* width: 18%; */
+  vertical-align: middle;
+}
+
+.label {
+  display: inline;
+  padding: 0.2em .6em .3em;
+  font-size: 164%;
+  font-weight: 700;
+  line-height: 3;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25em;
+}
+
+.btn-group-lg>.btn, .btn-lg {
+  padding: 5px 16px;
+  font-size: 16px;
+  line-height: -0.666667;
+  border-radius: 9px;
+}
+
+.form-inline .form-control {
+  display: inline-block;
+  width: 14%;
+  vertical-align: middle;
+}

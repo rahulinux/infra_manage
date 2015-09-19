@@ -169,6 +169,13 @@ def add_servers():
   else:
      return render_template('error.html',error = 'Unauthorized Access')
 
+@app.route("/add-auto-start")
+def auto_start():
+  if session.get('user'):
+     return render_template("add-auto-start.html")
+  else:
+     return render_template('error.html',error = 'Unauthorized Access')
+
 @app.route("/del-servers",methods=['POST'])
 def del_servers():
     value = request.form.getlist('favorite[]')
