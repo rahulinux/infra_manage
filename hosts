@@ -3,5 +3,7 @@
 127.0.0.3 instance_id=server3intid project=test
 127.0.0.4 instance_id=server4intid project=test
 127.0.0.5 instance_id=server5intid project=test
-127.0.0.6 instance_id=server6intid project=test
+192.168.5.11 instance_id=server192.168.5.11intid project=test
+10.1.5.44 instance_id=server10.1.5.44intid project=test
 web1 instance_id=web1int project=docker
+web2 instance_id=web2int project=docker
