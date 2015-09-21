@@ -27,16 +27,17 @@
       </div>
  
         <h3>Add Servers to Auto start/stop</h3>
-        <div class="list-group">
-        <a href="#" class="list-group-item active">Selected Servers</a>
-        {% for host in servers%}
-           <a href="#" class="list-group-item list-group-item-info">{{ host }}</a>
-        </div>
-         <div class="controls"> 
-            <div class="form-inline">
-            <form class="form-inline" id="cron" role="form" autocomplete="off" >
+            <div class="controls"> 
+             {% for host in servers%}
+             <div class="list-group">
+             <a href="#" class="list-group-item active">Selected Servers</a>
+                <a href="#" class="list-group-item list-group-item-info">{{ host }}</a>
+             </div>
+              <form class="form-inline" id="cron" role="form" autocomplete="off" >
+               <div class="form-inline"> 
+                    <input type="hidden" id="server" value="{{ host }}">
+                     <br>
                       <div class="entry">
-                         <input type="hidden" id="server" value="{{ host }}">
                          <select class="form-control" id="minutes" form="cron">
                          <option value="" disabled selected>Minutes</option>
                            {% for minut in range(59) %}

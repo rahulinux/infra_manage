@@ -241,20 +241,34 @@ def add_inventory():
         
 @app.route("/add-cron",methods=['POST'])
 def add_cron():
-   try:
+   #try:
      #print request.form.getlist('data')
      data = {}
+     info = {}
      form = request.form
      for key,value in form.iterlists():
+          server = key.split('[')[0]
+          k = key.split('[')[1].split(']')[0]
+          #print server,k,value
+          print server
+          #data = { server : {}  }
+          info = {k: value}
+          print info
+          if server in data:
+             data[server].update(info)
+          else:
+             data[server] = info
+
+          #print key.split(),value
           # store value in list
           # remove server ip to make list even
-          server_ip = value.pop(0) 
-          print server_ip
-          v = [ i for i in value if 'server=' not in i ]
-          # get only 5 value for cron
-          for i in range(0,len(v),6):
-               print v[i:i+6]
-          
+          #server_ip = value.pop(0) 
+          #print server_ip
+          #v = [ i for i in value if 'server=' not in i ]
+          ## get only 5 value for cron
+          #for i in range(0,len(v),6):
+          #     print v[i:i+6]
+          #
           #for n in range(len(key)):
           #     if n in data.keys():
           #        data[n].update({key: value[n]})
@@ -279,8 +293,8 @@ def add_cron():
      #reload_servers()     
      return json.dumps({'Status':'OK'})
      #return "/start-stop-servers" 
-   except Exception as e:
-     return json.dumps({'error':str(e)})
+   #except Exception as e:
+   #  return json.dumps({'error':str(e)})
  
 if __name__ == "__main__":
    app.run(host="0.0.0.0",debug=True)
