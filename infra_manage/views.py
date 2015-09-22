@@ -244,7 +244,7 @@ def auto_start_server():
 
 @app.route("/add-cron",methods=['POST'])
 def add_cron():
-   #try:
+   try:
      form = request.form
      if form['action'] == 'Start':
           cmd = "echo Starting server"
@@ -256,6 +256,23 @@ def add_cron():
             "month='%(month)s' day='%(day)s' weekday='%(week)s'" % (form),\
             "job='%(cmd)s'" % ({"cmd" : cmd})
      args = ' '.join(args)
+
+     server = form['server'] 
+     minute = form['minutes']
+     hour = form['hours']
+     day = form['day']
+     month = form['month']
+     week = form['week']
+     action = form['action']
+
+     conn = mysql.connect()
+     cursor = conn.cursor()
+     cursor.callproc('sp_createCron',(server,minute,hour,day,month,week,action))
+     data = cursor.fetchall()
+
+     if len(data) is 0:
+         conn.commit()
+         return json.dumps({'message':'Cron created Successfully !'})
      result = ansible.runner.Runner(
           transport = 'local',
           module_name = 'cron',
@@ -265,8 +282,11 @@ def add_cron():
      print args
      print result
      return json.dumps({'Status':'OK'})
-   #except Exception as e:
-   #  return json.dumps({'error':str(e)})
+   except Exception as e:
+     return json.dumps({'error':str(e)})
+   finally:
+      cursor.close()
+      conn.close() 
  
 if __name__ == "__main__":
    app.run(host="0.0.0.0",debug=True)

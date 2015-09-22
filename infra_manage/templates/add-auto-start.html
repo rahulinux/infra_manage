@@ -40,7 +40,7 @@
                       <div class="entry">
                          <select class="form-control" id="minutes" form="cron">
                          <option value="" disabled selected>Minutes</option>
-                           {% for minute in range(59) %}
+                           {% for minute in range(60) %}
                            <option value="{{ minute }}">{{ minute }}</option>
                            {% endfor %}
                            <option value="*">Every</option>
@@ -76,7 +76,7 @@
                          </select>
                          <select class="form-control" id="action" form="cron">
                          <option value="" disabled selected>Action</option>
-                           {% set a =  [ "Start", "Stop" ] %}
+                           {% set a =  [ "Start", "Stop", "Remove" ] %}
                            {% for  action in a  %}
                            <option value="{{ action }}">{{ action }}</option>
                            {% endfor %}

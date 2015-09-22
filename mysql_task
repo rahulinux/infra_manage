@@ -8,6 +8,16 @@ CREATE TABLE `infra_manage`.`tbl_user` (
        `user_password` VARCHAR(80) NOT NULL,
        PRIMARY KEY(`user_id`));
         
+CREATE TABLE `infra_manage`.`tbl_cron` (
+       `id` BIGINT NULL AUTO_INCREMENT,
+       `server_name` VARCHAR(50) NULL,
+       `minute` INT(2) NULL,
+       `hour` INT(2) NULL,
+       `day` INT(2) NULL,
+       `month` INT(2) NULL,
+       `week` VARCHAR(3) NULL,
+       `action` VARCHAR(80) NULL,
+       PRIMARY KEY(`id`));
 
 # PROCEDURES
 

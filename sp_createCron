@@ -1,0 +1,34 @@
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_createCron`(
+    IN p_server VARCHAR(50),
+    IN p_minute INT(2),
+    IN p_hour  INT(2),
+    IN p_day   INT(2),
+    IN p_month  INT(2),
+    IN p_week  VARCHAR(50),
+    IN p_action  VARCHAR(200)
+)
+BEGIN
+        insert into tbl_cron
+        (
+            server_name,
+            minute,
+            hour,
+            day, 
+            month, 
+            week, 
+            action 
+        )
+        values
+        (
+            p_server,
+            p_minute,
+            p_hour,  
+            p_day,  
+            p_month, 
+            p_week,  
+            p_action        
+         );
+     
+END$$
+DELIMITER ;
