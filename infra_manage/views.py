@@ -179,15 +179,6 @@ def auto_start():
   else:
      return render_template('error.html',error = 'Unauthorized Access')
 
-@app.route("/add-auto-start-servers")
-def auto_start_server():
-  global selected_servers
-  print selected_servers
-  if session.get('user'):
-     return render_template("add-auto-start.html",servers=selected_servers)
-  else:
-     return render_template('error.html',error = 'Unauthorized Access')
-
 @app.route("/del-servers",methods=['POST'])
 def del_servers():
     value = request.form.getlist('favorite[]')
@@ -239,60 +230,41 @@ def add_inventory():
    except Exception as e:
      return json.dumps({'error':str(e)})
         
+@app.route("/add-auto-start-servers")
+def auto_start_server():
+  global selected_servers
+  print selected_servers
+  data = {}
+  #for server in selected_servers:
+  #     data[server] = ""
+  if session.get('user'):
+     return render_template("add-auto-start.html",servers=selected_servers)
+  else:
+     return render_template('error.html',error = 'Unauthorized Access')
+
 @app.route("/add-cron",methods=['POST'])
 def add_cron():
    #try:
-     #print request.form.getlist('data')
-     data = {}
-     info = {}
      form = request.form
-     for key,value in form.iterlists():
-          server = key.split('[')[0]
-          k = key.split('[')[1].split(']')[0]
-          #print server,k,value
-          print server
-          #data = { server : {}  }
-          info = {k: value}
-          print info
-          if server in data:
-             data[server].update(info)
-          else:
-             data[server] = info
-
-          #print key.split(),value
-          # store value in list
-          # remove server ip to make list even
-          #server_ip = value.pop(0) 
-          #print server_ip
-          #v = [ i for i in value if 'server=' not in i ]
-          ## get only 5 value for cron
-          #for i in range(0,len(v),6):
-          #     print v[i:i+6]
-          #
-          #for n in range(len(key)):
-          #     if n in data.keys():
-          #        data[n].update({key: value[n]})
-          #     else:
-          #        data[n] = {key : value[n]}
-     print data
-     #for i in data:
-     #    server_ip = data[i]['serverIP'] 
-     #    instance_id = data[i]['InstanceID'] 
-     #    owner = data[i]['Owner'] 
-     #    email_id = data[i]['Email'] 
-     #    project = data[i]['Project']
-     #    line = '{0} project={1} owner={2} email_id={3} instance_id={4}'.format(server_ip,project,owner,email_id,instance_id)
-     #    args = 'dest={0} regexp=^{1} line="{2}"'.format( app.config['INV'],server_ip, line)
-     #    result = ansible.runner.Runner(
-     #         transport = 'local',
-     #         module_name = 'lineinfile',
-     #         module_args = args 
+     if form['action'] == 'Start':
+          cmd = "echo Starting server"
+     if form['action'] == 'Stop':
+          cmd = "echo Stoping server"
  
-     #         
-     #    ).run()
-     #reload_servers()     
+     args = "name='%(action)s %(server)s server'" % (form),\
+            "state=present minute='%(minutes)s' hour='%(hours)s'" % (form),\
+            "month='%(month)s' day='%(day)s' weekday='%(week)s'" % (form),\
+            "job='%(cmd)s'" % ({"cmd" : cmd})
+     args = ' '.join(args)
+     result = ansible.runner.Runner(
+          transport = 'local',
+          module_name = 'cron',
+          module_args = args
+          
+     ).run()
+     print args
+     print result
      return json.dumps({'Status':'OK'})
-     #return "/start-stop-servers" 
    #except Exception as e:
    #  return json.dumps({'error':str(e)})
  

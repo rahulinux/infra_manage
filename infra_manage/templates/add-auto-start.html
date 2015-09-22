@@ -40,14 +40,14 @@
                       <div class="entry">
                          <select class="form-control" id="minutes" form="cron">
                          <option value="" disabled selected>Minutes</option>
-                           {% for minut in range(59) %}
-                           <option value="{{ minut }}">{{ minut }}</option>
+                           {% for minute in range(59) %}
+                           <option value="{{ minute }}">{{ minute }}</option>
                            {% endfor %}
                            <option value="*">Every</option>
                          </select>
                          <select class="form-control" id="hours" form="cron">
                          <option value="" disabled selected>Hours</option>
-                           {% for hour in range(23) %}
+                           {% for hour in range(24) %}
                            <option value="{{ hour }}">{{ hour }}</option>
                            {% endfor %}
                            <option value="*">Every</option>
@@ -70,7 +70,7 @@
                          <option value="" disabled selected>Week</option>
                            {% set days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] %}
                            {% for week_day in days %}
-                           <option value="{{ week_day }}">{{ week_day }}</option>
+                           <option value="{{ week_day.split('day')[0][:3].lower() }}">{{ week_day }}</option>
                            {% endfor %}
                            <option value="*">Every</option>
                          </select>
