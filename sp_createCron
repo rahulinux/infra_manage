@@ -9,26 +9,36 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_createCron`(
     IN p_action  VARCHAR(200)
 )
 BEGIN
-        insert into tbl_cron
-        (
-            server_name,
-            minute,
-            hour,
-            day, 
-            month, 
-            week, 
-            action 
-        )
-        values
-        (
-            p_server,
-            p_minute,
-            p_hour,  
-            p_day,  
-            p_month, 
-            p_week,  
-            p_action        
-         );
+    IF ( select exists (select 1 from tbl_cron where server_name = p_server and minute = p_minute and hour = p_hour and day = p_day and month = p_month and week = p_week and action = p_action) and (p_action = "Start" or p_action = "Stop")) THEN 
+                    select "Entr Exists!!";
+    ELSEIF ( select exists (select 1 from tbl_cron where server_name = p_server and minute = p_minute and hour = p_hour and day = p_day and month = p_month and week = p_week and p_action = "Remove" )) THEN
+                    delete from tbl_cron where id=id and server_name = p_server and minute = p_minute and hour = p_hour and day = p_day and month = p_month and week = p_week;
+    ELSEIF (( select exists( select 1 from tbl_cron where action = p_action )) and ( p_action = "Start" or p_action = "Stop" )) THEN 
+
+                    insert into tbl_cron
+                    (
+                        server_name,
+                        minute,
+                        hour,
+                        day, 
+                        month, 
+                        week, 
+                        action 
+                    )
+                    values
+                    (
+                        p_server,
+                        p_minute,
+                        p_hour,  
+                        p_day,  
+                        p_month, 
+                        p_week,  
+                        p_action        
+                     );
+   ELSE
+        select "Nothing todo";
+
+   END IF; 
      
 END$$
 DELIMITER ;
